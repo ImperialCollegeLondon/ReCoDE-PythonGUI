@@ -18,6 +18,13 @@ for i in range(0, 500):
 
 ### Start creating GUI ###
 
+"""
+In Python, the with statement is used for working with objects that support a context manager protocol. 
+It ensures that resources are properly managed and cleaned up when they are no longer needed. Here,
+the with statement is used to create a window and all the widgets added to the window will be automatically
+added to the window. The same for when you create a menu bar and plot widget.
+"""
+
 # We first create a window using the window() function
 with dpg.window(label="Window1", width=700, height=700,pos=[0,0]):
     # All the following widgets are added to Window1
@@ -29,6 +36,12 @@ with dpg.window(label="Window1", width=700, height=700,pos=[0,0]):
     dpg.add_checkbox(label="Checkbox widget - option 1")
     dpg.add_checkbox(label="Checkbox widget - option 2")
     dpg.add_checkbox(label="Checkbox widget - option 3")
+    """
+    For each widget, parameter pos=[x,y] (x is the horizontal position and y is the vertical position)
+    can be used to set the position of the widget. If not set, the widget will be placed automatically.
+    In this case, the radio button will be set below the checkbox widgets rather than side by side.
+    You can have a try by deleting the pos=[220,140] parameter.
+    """
     dpg.add_radio_button(["Radio button widget - option 1", "Radio button widget - option 2", "Radio button widget - option 3"], horizontal=False,pos=[220,140])
    
     # The following codes create a plot widget
