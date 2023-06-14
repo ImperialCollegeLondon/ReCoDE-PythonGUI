@@ -17,3 +17,16 @@ GUIs are widely used in many applications. GUIs are used in operating systems, w
 There are many GUI frameworks available for Python. Some of the popular GUI frameworks include Tkinter, PyQt, PySide, wxPython, Kivy, etc. Different GUI frameworks have different ways to create a GUI. In this course, we will use dearpygui as the GUI framework. Dearpygui is chosen for its ability to create a GUI with a few lines of code. It is also a very powerful GUI framework that can be used to create a complex GUI. Most importantly, it supports GPU rendering and multi-threading, which makes it very fast and responsive.
 
 There are plenty of GUI software developed by dearpygui. You can find them in the [dearpygui showcase](https://github.com/hoffstadt/DearPyGui/wiki/Dear-PyGui-Showcase).
+
+### Best practice notes
+Debugging GUI codes is different from traditional code. 
+
+ - Have the structure of GUI program in mind. You are placing widgets on a planar canvas. This helps to find missing widgets as they can be blocked by others and determine the relative location of the widgets. 
+
+ - Always keep in mind that there still exists CLI when you design GUI, try to print essential variables for debugging. 
+
+ - Unless you enable multithreading, your codes run in serial. This explains why there are lags during display when you are processing data in background. 
+
+ - Assign meaningful names to each widget. You’ll lose your widgets when you have plenty of them. 
+
+ - Compared with displaying data statically, you should have an understanding of sliding window when you dynamically display data. 
