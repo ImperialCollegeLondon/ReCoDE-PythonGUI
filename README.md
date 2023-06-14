@@ -30,3 +30,28 @@ Debugging GUI codes is different from traditional code.
  - Assign meaningful names to each widget. You’ll lose your widgets when you have plenty of them. 
 
  - Compared with displaying data statically, you should have an understanding of sliding window when you dynamically display data. 
+
+### Structure of the GUI program
+Day 1: 
+    Develop familiarity with frameworks and key components for GUI design.  
+    Students will be provided with sample codes to familiarize commonly used GUI widgets. They can design whatever they want using provided widgets. (Sample data will be provided)  
+
+Day 2: 
+    Design a GUI to dynamically display data with single channel.  
+    Students will be provided a template with sample modularized codes to illustrate how to add a figure on GUI and make it work.  
+
+Day 3: 
+    Add more channels to GUI.  
+    Students try to extend the work in step 2 by referring to another template provided. They are free to add as many figures as possible and display anything on the figures. 
+
+Day 4: 
+    Add a control area to control the display, such as selecting different channels.  
+    Students will be provided a new template with modularized functions and control widgets as well as directive instructions for adding   control widgets used in GUI design. They can then combine these widgets with figures to achieve different functions.  
+
+Day 5: 
+    Add the function to read files and display data from files on GUI.  
+    The students will first learn the different formats that have been used in storing data and write codes to read the files. By simply replace the data sent to figures with those read from files, they will achieve the final goal. During this part, they will learn multithreading to simultaneously run reading data and display functions.
+
+Day 6: 
+   Add toggle functions to the GUI (choose between local data or device inputs).  
+   An example of a toggle function will be added to extend the previous template. Students can follow the instructions to implement the GUI.  
