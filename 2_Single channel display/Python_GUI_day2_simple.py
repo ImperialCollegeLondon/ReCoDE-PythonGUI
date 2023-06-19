@@ -8,6 +8,8 @@ global SERIAL_TAG
 def update_series(j):
     cosdatax = []
     cosdatay = []
+    # when you display data dynamically, you need to specify the length of the data
+    # in this case, the length of the data is 500, that is, there are 500 points in the plot widget
     for i in range(0, 500):
         cosdatax.append(i / 1000)
         cosdatay.append(0.5 + 0.5 * cos(50 * (i+j) / 1000))

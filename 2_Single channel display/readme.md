@@ -58,7 +58,7 @@ The steps for plotting data from file are exactly the same as plotting data gene
 
 A record from Physionet comes with two files, one is data.txt and the other is data.dat. The data.txt file contains information about the data, so called header file. The data.dat file contains the data. The format of header file can be found in the [Documentation from Physionet](https://physionet.org/physiotools/wag/header-5.htm).  
 In this example, we are going to use ADC gain (ADC units per physical unit) and ADC baseline. ADC gain is a floating-point number that specifies the difference in sample values that would be observed if a step of one physical unit occurred in the original analog signal. For example, the **ADC gain** for **ABP** is **91.5061**. Therefore, we need to divide the data by 91.5061 to get the real data. ADC baseline is surrounded by parentheses after ADC gain. The baseline is an integer that specifies the sample value corresponding to 0 physical units.  
-For example, from charis4.txt we can find 91.5061(-2644)/mmHg for ABP. Therefore, we need to divide the data by 91.5061 and add 2644 to get the real data, and the unit is mmHg.  
+For example, from charis4.txt we can find 91.5061(-2644)/mmHg for ABP. Therefore, we need to add 2644 and then divide the data by 91.5061 to get the real data, and the unit is mmHg.  
 Another important parameter is sampling frequency, which is the number of samples per second. For example, the sampling frequency is **50 Hz** in this record (the third parameter in the first line). Therefore, the time interval between two samples is 1/50 = 0.02 s.
 
 

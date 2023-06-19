@@ -23,7 +23,7 @@ def update_series(j,ICP):
             datax.append(i / 50)
         datay = ICP[j:j+500]
         dpg.set_value(SERIAL_TAG, [datax, datay])
-        dpg.set_item_label('series_tag','Intracranial Pressure')
+        dpg.set_item_label(SERIAL_TAG,'Intracranial Pressure')
 
 # The following codes are used to start the GUI
 def start_GUI(ICP):
