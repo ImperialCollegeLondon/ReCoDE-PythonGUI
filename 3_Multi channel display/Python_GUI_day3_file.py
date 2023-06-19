@@ -48,8 +48,8 @@ def start_GUI(ABP,ECG,ICP):
             dpg.add_plot_legend()
 
             # REQUIRED: create x and y axes
-            dpg.add_plot_axis(dpg.mvXAxis, label="x")
-            dpg.add_plot_axis(dpg.mvYAxis, label="y", tag="y_axis1")
+            dpg.add_plot_axis(dpg.mvXAxis, label="time")
+            dpg.add_plot_axis(dpg.mvYAxis, label="amplitude/mmHg", tag="y_axis1")
 
             # series belong to a y axis
             dpg.add_line_series(np.arange(0,500), np.zeros(500), parent="y_axis1", tag=SERIAL_TAG1)
@@ -59,8 +59,8 @@ def start_GUI(ABP,ECG,ICP):
             dpg.add_plot_legend()
 
             # REQUIRED: create x and y axes
-            dpg.add_plot_axis(dpg.mvXAxis, label="x")
-            dpg.add_plot_axis(dpg.mvYAxis, label="y", tag="y_axis2")
+            dpg.add_plot_axis(dpg.mvXAxis, label="time")
+            dpg.add_plot_axis(dpg.mvYAxis, label="amplitude/mV", tag="y_axis2")
 
             # series belong to a y axis
             dpg.add_line_series(np.arange(0,500), np.zeros(500), parent="y_axis2", tag=SERIAL_TAG2)
@@ -70,12 +70,12 @@ def start_GUI(ABP,ECG,ICP):
             dpg.add_plot_legend()
 
             # REQUIRED: create x and y axes
-            dpg.add_plot_axis(dpg.mvXAxis, label="x")
-            dpg.add_plot_axis(dpg.mvYAxis, label="y", tag="y_axis3")
+            dpg.add_plot_axis(dpg.mvXAxis, label="time")
+            dpg.add_plot_axis(dpg.mvYAxis, label="amplitude/mmHg", tag="y_axis3")
 
             # series belong to a y axis
             dpg.add_line_series(np.arange(0,500), np.zeros(500), parent="y_axis3", tag=SERIAL_TAG3)
-            
+
     dpg.create_viewport(title='Multiple channel display', width=600, height=700)
     dpg.setup_dearpygui()
     dpg.show_viewport()
