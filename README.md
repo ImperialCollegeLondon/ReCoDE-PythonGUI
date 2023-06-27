@@ -7,7 +7,7 @@ Here is some useful links from Diego Alonso Álvarez telling you how important G
 The GUI framework we use in this course is dearpygui, here is a link to the domentation of dearpygui.Dearpygui is chosen for its ability to create a GUI with a few lines of code. It is also a very powerful GUI framework that can be used to create a complex GUI. Most importantly, it supports GPU rendering and multi-threading, which makes it very fast and responsive.
 - [Dearpygui documentation](https://docs.dearpygui.org/en/latest/)
 
-## Introduction to GUI design for real-time data acquisition and analysis
+## Introduction to GUI design for real-time data display and analysis
 ### **What is GUI?**
 GUI stands for Graphical User Interface. It is a type of user interface that allows users to interact with electronic devices through graphical icons and visual indicators. GUIs were introduced in reaction to the perceived steep learning curve of command-line interfaces (CLIs), which require commands to be typed on the keyboard. The actions in a GUI are usually performed through direct manipulation of the graphical elements. The graphical elements include but not limited to windows, menus, buttons, scrollbars, icons, etc.
 ### **Why do we need GUI?**
@@ -18,7 +18,7 @@ There are many GUI frameworks available for Python. Some of the popular GUI fram
 
 There are plenty of GUI software developed by dearpygui. You can find them in the [dearpygui showcase](https://github.com/hoffstadt/DearPyGui/wiki/Dear-PyGui-Showcase).
 
-### Best practice notes
+### **Best practice notes**
 Debugging GUI codes is different from traditional code. 
 
  - Have the structure of GUI program in mind. You are placing widgets on a planar canvas. This helps to find missing widgets as they can be blocked by others and determine the relative location of the widgets. 
@@ -31,7 +31,7 @@ Debugging GUI codes is different from traditional code.
 
  - Compared with displaying data statically, you should have an understanding of sliding window when you dynamically display data. 
 
-### Structure of the GUI program
+### **Structure of the GUI program**
 Day 1: 
     Develop familiarity with frameworks and key components for GUI design.  
     Students will be provided with sample codes to familiarize commonly used GUI widgets. They can design whatever they want using provided widgets. (Sample data will be provided)  
@@ -55,3 +55,14 @@ Day 5:
 Day 6: 
    Add toggle functions to the GUI (choose between local data or device inputs).  
    An example of a toggle function will be added to extend the previous template. Students can follow the instructions to implement the GUI.  
+
+### **Download data**
+
+All data are stored in ```Data``` folder. You should put the data file you want to read in this folder. You can then access the data file by setting the path to ```Data``` folder. For example, you can use the following code to read the data file ```charis4.dat```.
+```python
+import numpy as np
+filename = 'Data/charis4.dat'
+datafile =open(filename, 'rb')
+dtype = np.dtype('int16')
+data = np.fromfile(datafile,dtype)
+```

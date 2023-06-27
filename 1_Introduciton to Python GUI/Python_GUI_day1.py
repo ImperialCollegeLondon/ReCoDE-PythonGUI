@@ -3,21 +3,36 @@
 import dearpygui.dearpygui as dpg
 import math
 
-def start_GUI():
-    # All dearpygui apps start with create_context()
-    dpg.create_context()
-    # The viewport is the window created by the operating system to display the GUI. 
-    # The viewport is created using the create_viewport() function
-    dpg.create_viewport(title='demonstration of dearpygui widgets', width=1000, height=700)
+# The following codes create two lists to store data for plotting
+sindatax = []
+sindatay = []
 
-    # The following codes generate data for plotting
-    sindatax = []
-    sindatay = []
+def print_me(sender, data):
+    """print selected menu
+    This function is used to print the selected menu.
+    """
+    print(sender, data)
+
+def generate_data():
+    """generate data for plotting
+    This function is used to generate demo data for plotting.
+    The data is generated using the following equation:
+    y = 0.5 + 0.5 * sin(50 * x)
+    """
     for i in range(0, 500):
         sindatax.append(i / 1000)
         sindatay.append(0.5 + 0.5 * math.sin(50 * i / 1000))
 
-    ### Start creating GUI ###
+def create_window1():
+    """ create the first window
+    This window contains several widgets like buttons, checkboxes, texts... 
+	as well as an static plot to illustrate the capabilities of dearpygui.
+	
+	For each widget, parameter pos=[x,y] (x is the horizontal position and 
+	y is the vertical position) can be used to set the position of the widget. 
+	If not set, the widget will be placed automatically. In this case, the 
+	radio button will be set below the checkbox widgets rather than side by side.
+    """
 
     """
     In Python, the with statement is used for working with objects that support a context manager protocol. 
@@ -25,8 +40,6 @@ def start_GUI():
     the with statement is used to create a window and all the widgets added to the window will be automatically
     added to the window. The same for when you create a menu bar and plot widget.
     """
-
-    # We first create a window using the window() function
     with dpg.window(label="Window1", width=700, height=700,pos=[0,0]):
         # All the following widgets are added to Window1
         dpg.add_text("Text widget")
@@ -55,14 +68,20 @@ def start_GUI():
             # series belong to a y axis
             dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent="y_axis") 
 
-    # There can be as many windows as you want in a viewport, here we generate a second window
+def create_window2():
+    """ create the second window
+    There can be as many windows as you want in a viewport.
+    This window is used to show how to create multiple windows, and only contains a text widget. 
+    """
     with dpg.window(label="Window2", width=700, height=700,pos=[700,0]):
         dpg.add_text("Text widget")
 
-    # We define a callback function to print the sender and data of a widget
-    def print_me(sender, data):
-        print(sender, data)
-    # The following codes create a menu bar
+def create_menu_bar():
+    """ create the menu bar
+    This function is used to create a menu bar.
+    The menu bar contains several menus, each menu contains several menu items.
+    The menu can be considered as a container of menu items.
+    """
     with dpg.viewport_menu_bar():
         with dpg.menu(label="File"):
             dpg.add_menu_item(label="Save", callback=print_me)
@@ -79,7 +98,21 @@ def start_GUI():
             dpg.add_button(label="Press Me", callback=print_me)
             dpg.add_color_picker(label="Color Me", callback=print_me)
 
+if __name__ == "__main__":
+    # The following codes start the GUI
+    # All dearpygui apps start with create_context()
+    dpg.create_context()
+    # The viewport is the window created by the operating system to display the GUI. 
+    # The viewport is created using the create_viewport() function
+    dpg.create_viewport(title='demonstration of dearpygui widgets', width=1000, height=700) 
 
+    # The following codes are custom functions to create windows, menu bar and generate data for plotting
+    generate_data()
+    create_window1()
+    create_window2()
+    create_menu_bar()
+
+    # The setup_dearpygui() function is used to setup the viewport.
     dpg.setup_dearpygui()
     # The viewport is shown using the show_viewport() function.
     dpg.show_viewport()
@@ -87,7 +120,3 @@ def start_GUI():
     dpg.start_dearpygui()
     # All dearpygui apps end with destroy_context()
     dpg.destroy_context()
-
-if __name__ == "__main__":
-    # The following codes start the GUI
-    start_GUI()
