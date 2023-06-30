@@ -8,13 +8,20 @@ sindatax = []
 sindatay = []
 
 def print_me(sender, data):
-    """print selected menu
-    This function is used to print the selected menu.
+    """ print the selected menu item
+    This function is used to print the sender and data of the callback.
+    Here the sender is the menu item and the data is the label of the menu item.
+    When the user clicks a menu item, the callback function will be called and the
+    sender and data will be passed to the callback function. The label of the menu item
+    will be printed.
+    Args:
+        sender: the sender of the callback
+        data: the data of the callback
     """
     print(sender, data)
 
 def generate_data():
-    """generate data for plotting
+    """ generate_data
     This function is used to generate demo data for plotting.
     The data is generated using the following equation:
     y = 0.5 + 0.5 * sin(50 * x)
@@ -24,7 +31,8 @@ def generate_data():
         sindatay.append(0.5 + 0.5 * math.sin(50 * i / 1000))
 
 def create_window1():
-    """ create the first window
+    """ create a window
+    This function is used to create a window
     This window contains several widgets like buttons, checkboxes, texts... 
 	as well as an static plot to illustrate the capabilities of dearpygui.
 	
@@ -69,15 +77,28 @@ def create_window1():
             dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent="y_axis") 
 
 def create_window2():
-    """ create the second window
-    There can be as many windows as you want in a viewport.
-    This window is used to show how to create multiple windows, and only contains a text widget. 
+    """ create a window
+    This function is used to create a window
+    This window contains several widgets like buttons, checkboxes, texts... 
+	as well as an static plot to illustrate the capabilities of dearpygui.
+	
+	For each widget, parameter pos=[x,y] (x is the horizontal position and 
+	y is the vertical position) can be used to set the position of the widget. 
+	If not set, the widget will be placed automatically. In this case, the 
+	radio button will be set below the checkbox widgets rather than side by side.
+    """
+
+    """
+    In Python, the with statement is used for working with objects that support a context manager protocol. 
+    It ensures that resources are properly managed and cleaned up when they are no longer needed. Here,
+    the with statement is used to create a window and all the widgets added to the window will be automatically
+    added to the window. The same for when you create a menu bar and plot widget.
     """
     with dpg.window(label="Window2", width=700, height=700,pos=[700,0]):
         dpg.add_text("Text widget")
 
 def create_menu_bar():
-    """ create the menu bar
+    """ create a menu bar
     This function is used to create a menu bar.
     The menu bar contains several menus, each menu contains several menu items.
     The menu can be considered as a container of menu items.

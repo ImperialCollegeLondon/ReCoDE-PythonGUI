@@ -2,8 +2,6 @@ import dearpygui.dearpygui as dpg
 # numpy is used to generate data for the plot widget
 import numpy as np
 
-global SERIAL_TAG
-
 # The following function is used to generate and update the plot widget
 def update_series(j):
     """update data for plotting
@@ -12,6 +10,10 @@ def update_series(j):
     y = 0.5 + 0.5 * sin(50 * x)
     when you display data dynamically, you need to specify the length of the data
     in this case, the length of the data is 500, that is, there are 500 points in the plot widget
+
+    Args:
+        j: the index of the data
+
     """
     cosdatax = np.arange(500)/1000
     cosdatay = 0.5 + 0.5 * np.cos(50 * (cosdatax+j/ 1000))
@@ -20,13 +22,27 @@ def update_series(j):
     When you plot data with GUI, you need to use dpg.set_value() to update the data, the data will be shown
     in the plot widget with the tag "series_tag", this tag is assigned to the plot widget at line 46.
     """
-    dpg.set_value(SERIAL_TAG, [list(cosdatax), list(cosdatay)])
+    dpg.set_value(SERIAL_TAG, [cosdatax, cosdatay])
     dpg.set_item_label(SERIAL_TAG, "0.5 + 0.5 * cos(x)")
 
 # The following function is used to start the GUI
 def create_window():
-    """ create window
-    For plotting, you need to create a window first, then create a plot widget in the window.
+    """ create a window
+    This function is used to create a window
+    This window contains several widgets like buttons, checkboxes, texts... 
+	as well as an static plot to illustrate the capabilities of dearpygui.
+	
+	For each widget, parameter pos=[x,y] (x is the horizontal position and 
+	y is the vertical position) can be used to set the position of the widget. 
+	If not set, the widget will be placed automatically. In this case, the 
+	radio button will be set below the checkbox widgets rather than side by side.
+    """
+
+    """
+    In Python, the with statement is used for working with objects that support a context manager protocol. 
+    It ensures that resources are properly managed and cleaned up when they are no longer needed. Here,
+    the with statement is used to create a window and all the widgets added to the window will be automatically
+    added to the window. The same for when you create a menu bar and plot widget.
     """
     with dpg.window(label="Window1", tag="win"):
         # create plot
