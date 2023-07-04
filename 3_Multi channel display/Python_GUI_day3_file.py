@@ -2,6 +2,9 @@ import dearpygui.dearpygui as dpg
 # numpy is used to read data from file
 import numpy as np
 
+# define the tags for each plot widget
+TAGS = "series_tag1", "series_tag2", "series_tag3"
+
 def read_data():
     """ read data from file
     This function is used to read data from a file.
@@ -110,9 +113,6 @@ def start_dearpygui(ABP,ECG,ICP):
     dpg.destroy_context()
 
 if __name__ == "__main__":
-
-    # define the tags for each plot widget
-    TAGS = "series_tag1", "series_tag2", "series_tag3"
 
     # start the GUI
     dpg.create_context()

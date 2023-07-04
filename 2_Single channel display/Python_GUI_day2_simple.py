@@ -2,6 +2,8 @@ import dearpygui.dearpygui as dpg
 # numpy is used to generate data for the plot widget
 import numpy as np
 
+SERIAL_TAG = "series_tag"
+
 # The following function is used to generate and update the plot widget
 def update_series(j):
     """update data for plotting
@@ -72,7 +74,7 @@ def start_dearpygui():
     dpg.destroy_context()
 
 if __name__ == "__main__":
-    SERIAL_TAG = "series_tag"
+    
     dpg.create_context()
     dpg.create_viewport(title='Single channel display', width=600, height=400)
 

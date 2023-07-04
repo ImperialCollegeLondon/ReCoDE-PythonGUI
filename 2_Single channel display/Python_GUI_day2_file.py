@@ -2,6 +2,8 @@ import dearpygui.dearpygui as dpg
 # numpy and math are used to generate data for the plot widget
 import numpy as np
 
+SERIAL_TAG = "series_tag"
+
 # The following codes are used to read data from a file. We will use ICP as an example.
 def read_data():
     """ read data from file
@@ -97,7 +99,7 @@ def start_dearpygui(ICP):
     dpg.destroy_context()
 
 if __name__ == "__main__":
-    SERIAL_TAG = "series_tag"
+    
     # The following codes start the GUI
     dpg.create_context()
     dpg.create_viewport(title='Single channel display', width=600, height=400)
