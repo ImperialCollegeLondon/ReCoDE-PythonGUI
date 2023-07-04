@@ -2,6 +2,9 @@ import dearpygui.dearpygui as dpg
 # math is used to generate data for the plot widget
 import numpy as np
 
+# define the tags for each plot widget
+TAGS = "series_tag1", "series_tag2", "series_tag3"
+
 def update_series(j):
     """update_series
     This function is used to update the data in the plot widget
@@ -72,9 +75,6 @@ def start_dearpygui():
     dpg.destroy_context()
 
 if __name__ == "__main__":
-
-    # define the tags for each plot widget
-    TAGS = "series_tag1", "series_tag2", "series_tag3"
 
     # start the GUI
     dpg.create_context()
