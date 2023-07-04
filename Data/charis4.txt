@@ -1,5 +1,0 @@
-charis4 3 50 7199999
-charis4.dat 16 91.5061(-2644)/mmHg 0 0 0 6797 0 ABP
-charis4.dat 16 6081.8245(-392)/mV 0 0 0 -12460 0 ECG
-charis4.dat 16 84.0552(-5)/mmHg 0 0 0 21911 0 ICP
-# <age>: 44  <sex>: F  <diagnoses>: (CVA)  <outcome>: Rehab

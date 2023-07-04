@@ -1,4 +1,8 @@
 # ReCoDE_PythonGUI
+
+## A multi-channel GUI for real-time data display and analysis
+![GUI](/Resources/main_window.jpg "Main Window")
+
 ## Before we start
 Here is some useful links from Diego Alonso Álvarez telling you how important GUI is for research software.
 - [GUIs for research software: Why are they relevant? (part one)](https://www.software.ac.uk/blog/2021-06-16-guis-research-software-why-are-they-relevant-part-one)

@@ -1,0 +1,5 @@
+charis6 3 50 8279982
+charis6.dat 16 90.2606(-363)/mmHg 0 0 0 -22439 0 ABP
+charis6.dat 16 6081.8245(-392)/mV 0 0 0 -848 0 ECG
+charis6.dat 16 82.3123(-212)/mmHg 0 0 0 10649 0 ICP
+# <age>: 20  <sex>: M  <diagnoses>: (TBI)  <outcome>: Rehab
