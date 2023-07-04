@@ -63,10 +63,6 @@ def update_series(j,ABP,ECG,ICP):
     plot_tags = "y_axis1", "y_axis2", "y_axis3"
     data = [ABP[j:j+500], ECG[j:j+500], ICP[j:j+500]]
 
-    # # if the pause button is pressed, the display will be paused untile unpause button is pressed
-    # while pause == 1:
-    #     dpg.render_dearpygui_frame()
-
     # update data for each channel
     for tag, label, datay, plot_tag in zip(TAGS, labels, data, plot_tags):
         datax = np.arange(500)/50
