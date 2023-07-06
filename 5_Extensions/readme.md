@@ -20,16 +20,16 @@ conda install pyserial
 ```
 * connect a peripheral device to your computer or use virtual serial port emulator
 
-For the purpose of demonstrator, you can use a virtual serial port emulator. You can download it from [this website](https://www.virtual-serial-port.org/). After you install the software, you can create a virtual serial port pair. The virtual serial port pair will be used to simulate the communication between two devices. You can use the virtual serial port pair to send data from one port and receive the data from the other port. **This is a paid software. You can use the trial version for 14 days.** A detailed instruction to create virtual serial port pair can be found [here](https://www.virtual-serial-port.org/articles/configure-virtual-serial-ports/).
+For the purpose of demonstrator, you can use a virtual serial port emulator so that you don't need a physical serial port transmission link. You can download it from [this website](https://www.virtual-serial-port.org/). After you install the software, you can create a virtual serial port pair. The virtual serial port pair will be used to simulate the communication between two devices. You can use the virtual serial port pair, for example, COM1 and COM2, to send data from one port and receive the data from the other port. **This is a paid software. You can use the trial version for 14 days.** A detailed instruction to create virtual serial port pair can be found [here](https://www.virtual-serial-port.org/articles/configure-virtual-serial-ports/).
 
 Interface for the virtual serial port emulator:
 ![GUI](/Resources/VSPD.webp "Main Window")
 
-If you are using virtual serial port emulator, you need another software called serial port monitor. Serial port monitor can be used to send and receive data from the virtual serial port. You can download it from [here](http://www.alithon.com/downloads).
+If you are using virtual serial port emulator, you need another software called serial port monitor to simulate the peripheral device. Serial port monitor can be used to send and receive data from the virtual serial port. You can download it from [here](http://www.alithon.com/downloads).
 
-If you are using a real peripheral device, you need to connect the device to your computer. You can use a USB to serial adapter to connect the device to your computer. You can find the driver for the USB to serial adapter on the manufacturer’s website. After you install the driver, you can use the device as a serial port on your computer.
+If you are using a real peripheral device, you need to connect the device to your computer. You can use a USB to serial adapter to connect the device to your computer. You can find the driver for the USB to serial adapter on the manufacturer’s website. After install the driver, you can communicate with the device through serial port.
 
-### **Comunication between two serial ports**
+### **Steps to communicate between two serial ports**
 
 1. Create a serial port pair using the virtual serial port emulator. Assume a pair of serial ports called COM1 and COM2 is created. COM1 is the port used to send data and COM2 is the port used to receive data.
 2. Open the serial port COM1 using pySerial. You can use the following code to open the serial port COM1:
@@ -38,7 +38,7 @@ If you are using a real peripheral device, you need to connect the device to you
 import serial
 ser = serial.Serial('COM1')
 ```
-3. Send data to the serial port COM1. You can use the following code to send data to the serial port COM1:
+3. Send data to the corresponding serial port COM2. You can use the following code to send data to the serial port COM1:
 
 ```python
 ser.write(b'Hello World')
@@ -50,10 +50,12 @@ The full codes for this part can be found in `Python_GUI_day5_simple.py`
 
 ### **Display data from serial port on GUI**
 
-In this tutorial, we will use a single channel display widget and one button to start and stop the display. The data is sent through COM2 from the serial port monitor and received by COM1. The data is then displayed on the GUI. We will use the single channel display from day2 and add a START/STOP button to the GUI.
+In this tutorial, we will use a single channel display widget to display data received from serial port and one button to start and stop the display. The data is sent through COM2 from the serial port monitor and received by COM1. The data is then displayed on the GUI. We will use the single channel display from day2 and add a START/STOP button to the GUI.
 
 1. Create a new project and add a single channel display widget and a button to the GUI. The GUI should look like this:
+   
 ![GUI](/Resources/single_channel_serial_port.jpg "Main Window")
+
 2. Create a serial port object and open the serial port COM1. You can use the following code to create a serial port object and open the serial port COM1:
 
 ```python
@@ -72,13 +74,13 @@ def read_serial():
 
 The full codes for this tutorial can be found in `Python_GUI_day5_display.py`
 
-An example has been shown below. When the START button is clicked, 1, 2, 3, 4, 5 are sent to the serial port COM1. The data is then displayed on the GUI.
+An example has been shown below. When the START button is clicked, 1, 2, 3, 4, 5 are sent to the serial port COM1. The data are then displayed on the GUI.
 
 ![GUI](/Resources/single_channel_serial_port_display.gif "Main Window")
 
-### **Something to remember**
+### **Hints**
 
-1. In serial communication, the baud rate determined the speed of serial transmisstion. You should make sure the baud rate of the serial port is the same as the baud rate of the device you are communicating with. In the tutorial, the baud rate is set to 9600.
+1. In serial communication, the baud rate determines the speed of serial transmisstion. You should make sure the baud rate of the serial port is the same as the baud rate of the device you are communicating with. In the tutorial, the baud rate is set to 9600 at both sides.
 2. All the data sent from the device are stored in a buffer. If the device starts transmission before the program starts to receive data, those data will be stored in the buffer. When you start to receive data, you will receive all the data in the buffer first. Just in case, you can clear the buffer before you start to receive data. You can use the following code to clear the buffer:
 
 ```python
@@ -86,13 +88,13 @@ ser.reset_input_buffer()
 ```
 3. It is possible that the display speed is slower than the speed for serial port to send one frame of data. In this case, you will have more than one frame in the buffer. In the tutorial code, we use a list with `append` method to read all the frames. One frame contains all the data you type in the transmitting box before you click `send`. A detailed introduction to frames in serial port transmittion can be found [here](https://www3.nd.edu/~lemmon/courses/ee224/web-manual/web-manual/lab12/node2.html#:~:text=A%20frame%20is%20a%20set,the%20end%20of%20a%20frame.).
 
-4. The serial port object has a property called `in_waiting`. This property returns the number of bytes in the receive buffer. You can use this property to check if there is any data in the buffer. You can use the following code to check if there is any data in the buffer:
+4. The serial port object has a property called `in_waiting`. This property returns the number of bytes in the receive buffer. You can use this property to check if there is any data in the buffer.
 
 ```python
 if ser.in_waiting > 0:
     data = ser.readline()
 ```
-5. The serial port object has a property called `is_open`. This property returns True if the serial port is open. You can use this property to check if the serial port is open. You can use the following code to check if the serial port is open:
+5. The serial port object has a property called `is_open`. This property returns True if the serial port is open. You can use this property to check if the serial port is open. You can use the following code to close the serial port if the serial port is open:
 
 ```python
 if ser.is_open:
@@ -103,6 +105,8 @@ if ser.is_open:
 ```python
 ser.close()
 ```
+You can use `ser.open()` to open the serial port in a similar way. 
+
 7. The serial port object has a method called `readline()`. This method reads a line from the serial port. You can use this method to read a line from the serial port. You can use the following code to read a line from the serial port:
 
 ```python

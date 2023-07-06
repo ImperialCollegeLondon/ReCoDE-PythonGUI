@@ -105,7 +105,7 @@ def start_dearpygui(ABP,ECG,ICP):
     """  
     i = 0
     while dpg.is_dearpygui_running():
-        if i >= len(ICP):
+        if i >= len(ICP)-500:
             i = 0
         i = i + 1
         update_series(i,ABP,ECG,ICP)

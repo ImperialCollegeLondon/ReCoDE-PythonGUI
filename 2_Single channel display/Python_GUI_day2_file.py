@@ -91,7 +91,7 @@ def start_dearpygui(ICP):
     i = 0
     while dpg.is_dearpygui_running():
         # When read data from file, we need to ensure that the data is not out of range.
-        if i >= len(ICP):
+        if i >= len(ICP)-500:
             i = 0
         i = i + 1
         update_series(i,ICP)
