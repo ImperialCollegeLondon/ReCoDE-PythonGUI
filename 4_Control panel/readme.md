@@ -12,15 +12,15 @@ The control panel contains three functions:
 
 ### **Callback Function**
 
-Before we start, there is a very important concept to know, call backfunction. Callback function exists for each interactive item. When the interactive item is clicked, the callback function will be executed. For example, the codes to create a button is as follows:
+Before we start, there is a very important concept to know, callback function. Callback function exists for each interactive item. When the interactive item is clicked, the callback function will be executed. For example, the code to create a button with a callback is as follows:
 
 ```python
-dpg.add_button(label="START", callback=start_stop_func, tag="START_STOP_BTN",width=70,height=40,pos=[30,100])
+dpg.add_button(label="START", callback=on_start_stop_btn_pressed, user_data="Some Data", tag="START_STOP_BTN",width=70,height=40,pos=[30,100])
 ```
-Here, the label of the button is "START". The callback function is `start_stop_func`. The tag of the button is "START_STOP_BTN". The width and height of the button are 70 and 40, respectively. The position of the button is [30,100]. We can then implement the callback function as follows:
+Here, the label of the button is "START". The callback function is `on_start_stop_btn_pressed`. The tag of the button is "START_STOP_BTN". The width and height of the button are 70 and 40, respectively. The position of the button is [30,100]. We can then implement the callback function as follows:
 
 ```python
-def start_stop_func():
+def on_start_stop_btn_pressed():
     print('START button is clicked')
 ```
 
@@ -29,19 +29,33 @@ When you click the button, the callback function will be executed and the messag
 Usually, there are three default parameters for a callback function, `sender`, `appdata` and `user_data`. `sender` is the interactive item that triggers the callback function. `appdata` is the data of the interactive item. `user_data` is the data that you can pass to the callback function. For example, the callback function of the button can be implemented as follows:
 
 ```python
-def start_stop_func(sender, appdata, user_data):
+def on_start_stop_btn_pressed(sender, appdata, user_data):
     print('START button is clicked')
     print('sender:',sender)
     print('appdata:',appdata)
     print('user_data:',user_data)
 ```
-When you click the button, the callback function will be executed and the message "START button is clicked" will be printed in the console. The `sender` is the button. The `appdata` is the data of the button. The `user_data` is the data that you can pass to the callback function.
+When you click the button, the callback function will be executed and you will get the following results.
+```
+START button is clicked
+sender: START_STOP_BTN
+appdata: None
+user_data: Some Data
+```
+Here, The `sender` is the button. The `appdata` is the data of the button, which is `none` as button doesn't contain data. The `user_data` is the data that you can pass to the callback function, here we passed a string `Some Data`.
 
 **One more thing**, the callback function can be implemented as a **lambda function**. Lambda function is a function without a name. It is usually used for a simple function. For example, the callback function of the button can be implemented as follows:
 ```python
 dpg.add_button(label="START", callback=lambda: print("The button has been pressed"), tag="START_STOP_BTN",width=70,height=40,pos=[30,100])
 ```
-Instead of running a function, the callback function is a lambda function. When you click the button, the message "The button has been pressed" will be printed in the console. A detailed introduction ot **lambda function** can be found [here](https://www.w3schools.com/python/python_lambda.asp).
+Here, the callback function is `lambda: print("The button has been pressed")`. You don't need to define a function. The codes after `lambda:` will be executed as the callback function.
+When you click the button, the message "The button has been pressed" will be printed in the console as following:
+
+```
+The button has been pressed
+```
+ 
+A detailed introduction ot **lambda function** can be found [here](https://www.w3schools.com/python/python_lambda.asp).
 
 ### **Select the data file to be displayed**
 The data file is selected by clicking the `SELECT FILE` button. The file name is displayed in the text box. When `SELECT FILE` button is clicked, a file_dialog will be shown. We need to first create a file dialog and then show it. The creation of file dialog is achieved by `create_file_selection_dialog` function and the showing of file dialog is achieved by assigning `dpg.show_item()` function as the callback function of `SELECT FILE` button.
@@ -57,36 +71,37 @@ As dearpygui is rendering automatically, it is unlikely to stop the program. Her
 
 When the start/stop button is clicked and the label is "Start", the program will be started. The index will increased from 0 to the end of the data.
 
-The label for the pause/unpause button is changed to "Pause" or "Unpause" depending on the state of the button. When the button is "Pause", the label will be changed to "Unpause". When the button is "Unpause", the label will be changed to "Pause". This is achieved by adding a `while` loop in the `update_series` function. The `while` loop will keep running until the label is changed to "Unpause". 
+The label for the pause/unpause button is changed to "Pause" or "Unpause" depending on the state of the button. When the button is "Pause", the label will be changed to "Unpause". When the button is "Unpause", the label will be changed to "Pause". The `pause` function is achieved by adding a return statement in `update_series`. When the pause/unpause state is 1, the return statement will be executed and the program will be paused as the codes to update the plots won't be executed. When the pause/unpause state is 0, the return statement will not be executed and the program will be running.
+
 
   **Tricks**
   
-  When you just have one button, you don't need to consider how the users are going to use the buttons. However, when you have more than one button, you can't expect how the users are going to click them.
+  When you just have one button, you don't need to consider how the users are going to use the buttons. However, when you have more than one button, you can't easily anticipate how the users are going to click them.
 
-  Ideally, we hope the user will first click the `SELECT FILE` button, then click the `START` button, and click `PAUSE` button to pause the display. What if they click `START` button before click `SELECT FILE` button, at which time no file is selected and the program will crash. What if they click `PAUSE` button before click `START` button, at which time the program is not running. This is something you need to consider when you design the GUI, so called **Human-Computer Interaction design**.
+  Ideally, we hope the user will first click the `SELECT FILE` button, then click the `START` button, and click `PAUSE` button to pause the display. What if they click `START` button before click `SELECT FILE` button, at which time no file is selected and the program will cras? What if they click `PAUSE` button before click `START` button, at which time the program is not running? This is something you need to consider when you design the GUI, so called **Human-Computer Interaction design**.
 
-  In this program, the `PAUSE` button is taking effect only after `START` bubtton is clicked. If the `PAUSE` button is clicked before the `START` button, the program will ignore the click. If the `PAUSE` button is clicked after the `START` button, the program will pause the display.
+  In this program, we have three buttons, `SELECT FILE` button, `START/STOP` button and `PAUSE` button. The ideal operation should be click `SELECT FILE` button, then click `START/STOP` button, and click `PAUSE` button to pause and unpause the display. To achieve this, we need to disable the buttons that are not supposed to be clicked. You can use `dpg.disable_item(tag)` function to disable the button. `tag` is the tag of the button. For example, `dpg.disable_item("START_STOP_BTN")` will disable the `START/STOP` button. You can use `dpg.enable_item(tag)` function to enable the button. `tag` is the tag of the button. For example, `dpg.enable_item("START_STOP_BTN")` will enable the `START/STOP` button.
+  
+  At initialization, the `SELECT FILE` button is enabled, and `START/STOP` button and `PAUSE` button are disabled. When `SELECT FILE` button is clicked, the `START/STOP` button is enabled. The `PAUSE` button is disabled if the `START` button is not clicked. When `START` button is clicked, the `PAUSE` button is enabled. The same design is applied to the `START/STOP` button. The `START/STOP` button is disabled if the `PAUSE` button is clicked. When `UNPAUSE` button is clicked, the `START/STOP` button is enabled.
 
-  In the same way, `STOP` button is unclickable if `PAUSE` button is clicked. Only when `UNPAUSE` is clicked, the `STOP` button will be clickable. 
-
-  The same design should be applied to the `SELECT FILE` button. If the `START` button is clicked before the `SELECT FILE` button, the program pops up a message box to remind the user to select a file first. However, pop up box is not well supported in dearpygui. Therefore, a initial file is selected to avoid the program crash.
+  There is another way to avoid the program crach due to click `START/STOP` button before a file is selected. In this program, a initial file is selected so that the user can start display directly using the default file.
 
 ### **Select the channels to be activated**
 
 Usually, the data file contains many channels but you have much less display channels. We need to select the channels to be displayed. The channels to be displayed are selected by clicking the corresponding checkbox. In the callback function of the checkbox, you can repalce the data to be displayed in one channle with the data of corresponding checkbox. For example, if you unclick the checkbox of ABP, the channel displaying ABP will be cleared. And if you click the checkbox of ICP at this time, the channel that displayed ABP will display ICP instead.
 
-Here we give a simple example, the callback function of the checkbox is used to control whether the corresponding plot is displayed.
+In the codes you can find a simplied version of the above method. The data to be displayed is not replaced by the data of corresponding checkbox. Instead, the data to be displayed is cleared when the checkbox is unclicked. The data to be displayed is set to the data of corresponding checkbox when the checkbox is clicked. This is achieved by `dpg.configure_item(tag, value)` function. `tag` is the tag of the plot widget. `value` is the data to be displayed.
 
 ### **Change the color of each plots**
 
 The properties of the lines in display widgets can be changed dynamically, including line width, line color, line style, etc. To do that, we need to create a theme. A detailed introduction to theme in dearpygui can be found [here](https://dearpygui.readthedocs.io/en/latest/documentation/themes.html). 
 
 After you create a theme, you can apply it to 
-* global.  This will have a global effect across all windows and propagate. 
-* container.  This will propagate to its children if applicable theme components are in the theme.
-* item.  bound to an item type if applicable theme components are in the theme.
+* global:  This will have a global effect across all windows and propagate. 
+* container:  This will propagate to its children if applicable theme components are in the theme.
+* item:  bound to an item type if applicable theme components are in the theme.
 
-When bind the theme with target, you can change the properties of the target by changing the properties of the theme. For example, if you want to change the color of the lines in the display widgets, you can change the color of the theme that is bound to the display widgets.
+When binding the theme with target, you can change the properties of the target by changing the properties of the theme. For example, if you want to change the color of the lines in the display widgets, you can change the color of the theme that is bound to the display widgets.
 
 The theme is created by `dpg.add_theme()`. The theme contains the properties of the lines in display widgets. Here we just want to change the color of the lines. You can change other properties as well. The color of the lines are defined by `dpg.add_theme_color()`. We can use the following codes to create a theme containing color:
 ```python
@@ -95,20 +110,4 @@ with dpg.theme(tag=tag_theme):
     theme_color = dpg.add_theme_color(dpg.mvPlotCol_Line, (51, 255, 255), category=dpg.mvThemeCat_Plots)       
 ```
 
-After the theme is created, we need to bind it with the display widgets. This is achieved by `dpg.bind_item_theme(tag, tag_theme)`. `tag` is the tag of the display widget. `tag_theme` is the tag of the theme. After that, we can change the color of the lines by chaning the color of the bound theme using codes `dpg.set_theme_item(tag_theme, theme_color, (255, 0, 0))`. `tag_theme` is the tag of the theme. `theme_color` is the tag of the color. `(255, 0, 0)` is the new color.
-
-**Tricks**
-
-As we have three channles here, we need to create three theme widgets. You need to name them as `tag_theme1`, `tag_theme2` and `tag_theme3` instead of `tag_theme`. Otherwise, the theme will be overwritten and only the last theme will be applied to all the display widgets.
-
-However, we don't want to assign the color to each theme one by one. We can use a for loop to do that. The problem is how to go through three variables `tag_theme1`, `tag_theme2` and `tag_theme3` in the for loop. We can use `globals` to do that. If you add `globales()` before a string, the string will be treated as a variable.
-
-An example is as follows:
-
-```python
-var_list = ['tag_theme1', 'tag_theme2', 'tag_theme3']
-for i in range(3):
-  globals()[var_list[i]] = i
-print(tag_theme1, tag_theme2, tag_theme3)
-```  
-For the above codes, three variables naming `tag_theme1`, `tag_theme2` and `tag_theme3` will be created. The value of `tag_theme1` is 0, the value of `tag_theme2` is 1 and the value of `tag_theme3` is 2.
+After the theme is created, we need to bind it with the display widgets. This is achieved by `dpg.bind_item_theme(tag, tag_theme)`. `tag` is the tag of the display widget. `tag_theme` is the tag of the theme. After that, we can change the color of the lines by chaning the color of the bound theme using codes `dpg.set_value(theme_color, RGB value of color)`. `theme_color` is the tag of the color. RGB value like `(255, 0, 0)` is the new color.

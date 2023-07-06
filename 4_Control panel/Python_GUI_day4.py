@@ -4,6 +4,16 @@ import numpy as np
 # ecgdetectors is used to calculate the heart rate
 from ecgdetectors import Detectors
 
+# define the tags for each plot widget
+TAGS = "ABP", "ECG", "ICP"
+
+# initialize the start_stop and pause status
+start_stop = 0 # 0: stop, 1: start
+pause = 0 # 0: unpause, 1: pause
+
+# initialize the filename
+filename = "charis4.dat"
+
 def read_data():
     """ read data from file
     This function is used to read data from a file.
@@ -45,13 +55,13 @@ def update_series(j,ABP,ECG,ICP):
     # pause will be used outside the function, so we need to define it as global variable
     global pause
 
+    # if the pause button is pressed, the display will be paused untile unpause button is pressed
+    if pause:
+        return
+
     labels = "Arterial Blood Pressure", "Electrocardiogram", "Intracranial Pressure"
     plot_tags = "y_axis1", "y_axis2", "y_axis3"
     data = [ABP[j:j+500], ECG[j:j+500], ICP[j:j+500]]
-
-    # if the pause button is pressed, the display will be paused untile unpause button is pressed
-    while pause == 1:
-        dpg.render_dearpygui_frame()
 
     # update data for each channel
     for tag, label, datay, plot_tag in zip(TAGS, labels, data, plot_tags):
@@ -75,7 +85,7 @@ def update_series(j,ABP,ECG,ICP):
         # update the heart rate
         dpg.set_value("text_heart_rate", str(round(heart_rate,2))+"bpm")
 
-def file_selection_func(sender, app_data):
+def on_file_dialog_selected(sender, app_data):
     ''' file selection function
     This function is called when a file is selected in the file selection dialog
     The selected file name is used to update the file name in the control window
@@ -98,40 +108,43 @@ def file_selection_func(sender, app_data):
     filename = app_data["file_name"]
     ABP,ECG,ICP = read_data()
 
-def start_stop_func():
+def on_start_stop_btn_pressed():
     ''' start the display
     Called when START button it clicked, switch the START_STOP between 0 and 1 to start or stop the display
     '''
     # start_stop will be used outside the function, so we need to define it as global variable
     global start_stop
 
-    if pause == 0: # if the display is paused, the start button will not work
-        if start_stop == 0:
-            start_stop = 1
-            # set the label of the button to STOP
-            dpg.set_item_label("START_STOP_BTN", "STOP")
-        else:
-            start_stop = 0
-            # set the label of the button to START
-            dpg.set_item_label("START_STOP_BTN", "START")
+    if start_stop == 0:
+        start_stop = 1
+        # set the label of the button to STOP
+        dpg.set_item_label("START_STOP_BTN", "STOP")
+        dpg.enable_item("PAUSE_BTN")
+    else:
+        start_stop = 0
+        # set the label of the button to START
+        dpg.set_item_label("START_STOP_BTN", "START")
+        dpg.disable_item("PAUSE_BTN")
 
-def pause_func():
+def on_pause_btn_pressed():
     ''' pause the display
     Called when PAUSE button is clicked, switch the PAUSE between 0 and 1 to pause or unpause the display
     '''
     # pause will be used outside the function, so we need to define it as global variable
     global pause
     
-    if pause == 0 and start_stop == 1: # pause function is only available when the display is started
+    if pause == 0: #and start_stop == 1: # pause function is only available when the display is started
         pause = 1
         # set the label of the button to UNPAUSE
         dpg.set_item_label("PAUSE_BTN", "UNPAUSE")
+        dpg.disable_item("START_STOP_BTN")
     else:
         pause = 0
         # set the label of the button to PAUSE
         dpg.set_item_label("PAUSE_BTN", "PAUSE")
+        dpg.enable_item("START_STOP_BTN")
 
-def change_color_func():
+def on_color_set_btn_pressed():
     '''change the color of the plot
     Called when SET button is clicked, change the color of the plot according to the selected channel and color
     '''
@@ -144,8 +157,12 @@ def change_color_func():
     Taking ABP as an example, we get "ABP" from the color_combo and add "_color" to it. So the varibale name becomes "ABP_color", which
     is the name of the theme color.
     '''
-    dpg.set_value(globals()[dpg.get_value("color_combo")+"_color"], dpg.get_value("color_picker"))
-
+    if dpg.get_value("color_combo") == "ABP":
+        dpg.set_value(themes["ABP_theme"], dpg.get_value("color_picker"))
+    elif dpg.get_value("color_combo") == "ECG":
+        dpg.set_value(themes["ECG_theme"], dpg.get_value("color_picker"))
+    elif dpg.get_value("color_combo") == "ICP":
+        dpg.set_value(themes["ICP_theme"], dpg.get_value("color_picker"))
 
 def create_display_window():
     """ create a window
@@ -218,8 +235,9 @@ def create_control_window():
         dpg.add_button(label="SELECT FILE",callback=lambda: dpg.show_item("file_selection_dialog"), tag="FILE_BTN", width=140,height=40,pos=[35,50])
         
         # The following codes are used to create START and PAUSE buttons
-        dpg.add_button(label="START", callback=start_stop_func, tag="START_STOP_BTN",width=70,height=40,pos=[30,100])
-        dpg.add_button(label="PAUSE", callback=pause_func, tag="PAUSE_BTN",width=70,height=40, pos=[110,100])
+        dpg.add_button(label="START", callback=on_start_stop_btn_pressed, tag="START_STOP_BTN",width=70,height=40,pos=[30,100])
+        dpg.add_button(label="PAUSE", callback=on_pause_btn_pressed, tag="PAUSE_BTN",width=70,height=40, pos=[110,100])
+        dpg.disable_item("PAUSE_BTN")
 
         # The following codes are used to create checkboxes
         # When the checkbox is checked, the corresponding channel will be displayed
@@ -233,16 +251,17 @@ def create_control_window():
         dpg.add_color_picker(label="Color", default_value=[255, 0, 0, 255], pos=[10,285], width=200, tag="color_picker")
         dpg.add_text("Set color for:",pos=[10,545])
         dpg.add_combo(items=["ABP", "ECG", "ICP"], default_value="ABP", pos=[110,545], width=50, tag="color_combo")
-        dpg.add_button(label="SET", callback=change_color_func, pos=[170,540], width=30, height=30)
+        dpg.add_button(label="SET", callback=on_color_set_btn_pressed, tag="COLOR_SET_BTN", pos=[170,540], width=30, height=30)
         # To change the color of item in dearpygui, we need to create a theme with specified color and bind the theme to the item
         # Create three themes for three channels
-        global colors_name
-        colors_name = ["ABP_color", "ECG_color", "ICP_color"] 
+        global themes
+        themes = {}
+        global tags_theme 
         tags_theme = "ABP_theme", "ECG_theme", "ICP_theme"
         for i,(tag_theme, tag) in enumerate(zip(tags_theme, TAGS)):
             with dpg.theme(tag=tag_theme):
                 with dpg.theme_component(dpg.mvLineSeries):
-                    globals()[colors_name[i]] = dpg.add_theme_color(dpg.mvPlotCol_Line, (51, 255, 255), category=dpg.mvThemeCat_Plots)
+                    themes[tags_theme[i]] = dpg.add_theme_color(dpg.mvPlotCol_Line, (51, 255, 255), category=dpg.mvThemeCat_Plots)
             # bind the theme to the item, when we change the color the the theme, the color of the item will be changed
             dpg.bind_item_theme(tag, tag_theme)
 
@@ -257,7 +276,7 @@ def create_file_selection_dialog():
     This function is used to create a file selection dialog
     This dialog is used to select the data file
     """
-    with dpg.file_dialog(directory_selector=False, show=False,callback=file_selection_func, tag="file_selection_dialog", width=500, height=500):
+    with dpg.file_dialog(directory_selector=False, show=False,callback=on_file_dialog_selected, tag="file_selection_dialog", width=500, height=500):
         dpg.add_file_extension(".dat")
 
 def start_dearpygui(ABP,ECG,ICP):
@@ -276,22 +295,13 @@ def start_dearpygui(ABP,ECG,ICP):
     while dpg.is_dearpygui_running():
         if i >= len(ICP) or start_stop == 0:
             i = 0
-        i = i + 1
+        if not pause:
+            i = i + 1
         update_series(i,ABP,ECG,ICP)
         dpg.render_dearpygui_frame()
     dpg.destroy_context()
 
 if __name__ == "__main__":
-
-    # define the tags for each plot widget
-    TAGS = "ABP", "ECG", "ICP"
-
-    # initialize the start_stop and pause status
-    start_stop = 0 # 0: stop, 1: start
-    pause = 0 # 0: unpause, 1: pause
-
-    # initialize the filename
-    filename = "charis4.dat"
 
     # start the GUI
     dpg.create_context()
@@ -311,5 +321,6 @@ if __name__ == "__main__":
     dpg.show_viewport()
     # As we will manually render the frame, we do not need to use dpg.start_dearpygui(). We used a customized function instead.
     start_dearpygui(ABP,ECG,ICP)
+
     # All dearpygui apps end with destroy_context()
     dpg.destroy_context()

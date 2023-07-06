@@ -74,7 +74,7 @@ def start_dearpygui():
     dpg.destroy_context()
 
 if __name__ == "__main__":
-    
+
     dpg.create_context()
     dpg.create_viewport(title='Single channel display', width=600, height=400)
 

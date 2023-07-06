@@ -99,7 +99,7 @@ def start_dearpygui(ICP):
     dpg.destroy_context()
 
 if __name__ == "__main__":
-    
+
     # The following codes start the GUI
     dpg.create_context()
     dpg.create_viewport(title='Single channel display', width=600, height=400)
