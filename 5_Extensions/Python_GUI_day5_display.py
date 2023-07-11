@@ -1,36 +1,20 @@
 import dearpygui.dearpygui as dpg
 # numpy and math are used to generate data for the plot widget
 import numpy as np
+# import serial
+import serial
 
 SERIAL_TAG = "series_tag"
-
-# The following codes are used to read data from a file. We will use ICP as an example.
-def read_data():
-    """ read data from file
-    This function is used to read data from a file.
-    The data is stored in a file named charis4.dat under Data folder.
-    The data is stored in the following format:
-    1st data point: first data of ABP
-    2nd data point: first data of ECG
-    3rd data point: first data of ICP
-    4th data point: second data of ABP
-    5th data point: second data of ECG
-    6th data point: second data of ICP
-    ...
-
-    return:
-        ICP: the data of ICP
-
-    """
-    filename = 'Data/charis4.dat'
-    with open(filename, 'rb') as datafile:
-        data = np.fromfile(datafile, np.dtype('int16'))
-    ICP  = (data[2::3]+5)/84.0552
-    return ICP
+# initialize the start_stop status
+start_stop = 0 # 0: stop, 1: start
+# initialize the data array
+datay = np.zeros(500)
+# create a serial object
+ser = serial.Serial('COM1', 9600, timeout=0.1)
 
 # The following codes are used to update the plot widget
 # It is the same as the codes in previous example. The only difference is that we replace the random data with ICP data.
-def update_series(j,ICP):
+def update_series():
     """update data for plotting
     This function is used to update data from files for plotting.
     when you display data dynamically, you need to specify the length of the data
@@ -41,10 +25,41 @@ def update_series(j,ICP):
         ICP: the data of ICP
     """
     datax = np.arange(500)/50
-    datay = ICP[j:j+500]
-    dpg.set_value(SERIAL_TAG, [datax, datay])
-    dpg.set_item_label(SERIAL_TAG,'Intracranial Pressure')
 
+    # read data from the serial port
+    received_data = 0
+    if start_stop == 1:
+        if ser.in_waiting:
+            received_data = ser.readline().decode('utf-8').strip('\r\n')
+    
+    # Only one point is sent from the serial port each time, so we need to concatenate the data
+    # datay is initialized as a zero array with length 500, the recieved data is added to the end of the array
+    # we then contruncate the first element of the array, so the length of the array is still 500
+    global datay
+    datay = np.append(datay, float(received_data))
+    datay = np.delete(datay, 0)
+
+    if start_stop == 0:
+        datay = np.zeros(500)
+
+    dpg.set_value(SERIAL_TAG, [datax, datay])
+    dpg.set_item_label(SERIAL_TAG,'Serial Transmission')
+    dpg.fit_axis_data("y_axis")
+
+def on_start_stop_pressed():
+    """start or stop the plot
+    This function is used to start or stop the plot
+    """
+    global start_stop
+    if start_stop == 0:
+        start_stop = 1
+        dpg.configure_item("START_STOP_BTN", label="STOP")
+        if not ser.is_open:
+            ser.open()
+    else:
+        start_stop = 0
+        dpg.configure_item("START_STOP_BTN", label="START")
+        ser.close()
 
 def create_window():
     """ create a window
@@ -66,7 +81,7 @@ def create_window():
     """ 
     with dpg.window(label="Window1", tag="win"):
         # create plot
-        with dpg.plot(label="Arterial blood pressure", height=300, width=600):
+        with dpg.plot(label="Serial Transmittion", height=300, width=600):
             # optionally create legend
             dpg.add_plot_legend()
 
@@ -76,9 +91,12 @@ def create_window():
 
             # series belong to a y axis
             dpg.add_line_series(np.arange(0,500), np.zeros(500), parent="y_axis", tag=SERIAL_TAG)
+        
+        # create a START/STOP button
+        dpg.add_button(label="START", callback=on_start_stop_pressed, tag="START_STOP_BTN")
 
     
-def start_dearpygui(ICP):
+def start_dearpygui():
     """ update the GUI frame by frame
     Here we change dpg.start_dearpygui() to while dpg.is_dearpygui_running() and dpg.render_dearpygui_frame()
     This is because we want to update the plot widget in a loop, if we use dpg.start_dearpygui(), the GUI will
@@ -88,13 +106,8 @@ def start_dearpygui(ICP):
         ICP: the data of ICP
 
     """    
-    i = 0
     while dpg.is_dearpygui_running():
-        # When read data from file, we need to ensure that the data is not out of range.
-        if i >= len(ICP)-500:
-            i = 0
-        i = i + 1
-        update_series(i,ICP)
+        update_series()
         dpg.render_dearpygui_frame()
     dpg.destroy_context()
 
@@ -106,12 +119,11 @@ if __name__ == "__main__":
 
     # The following codes are custom functions to create windows and read data from files
     create_window()
-    ICP = read_data()
 
     # The setup_dearpygui() function is used to setup the viewport.
     dpg.setup_dearpygui()
     dpg.show_viewport()
     # As we will manually render the frame, we do not need to use dpg.start_dearpygui(). We used a customized function instead.
-    start_dearpygui(ICP)
+    start_dearpygui()
     # All dearpygui apps end with destroy_context()
     dpg.destroy_context()

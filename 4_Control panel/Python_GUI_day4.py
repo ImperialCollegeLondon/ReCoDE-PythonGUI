@@ -293,7 +293,7 @@ def start_dearpygui(ABP,ECG,ICP):
     """  
     i = 0
     while dpg.is_dearpygui_running():
-        if i >= len(ICP) or start_stop == 0:
+        if i >= len(ICP)-500 or start_stop == 0:
             i = 0
         if not pause:
             i = i + 1
