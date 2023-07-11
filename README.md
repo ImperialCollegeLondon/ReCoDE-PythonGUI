@@ -85,7 +85,7 @@ You will use virual serial port emulator to and a serial port monitor for Day 5.
 ### **Hardware**
 - A computer with Windows 10 or Windows 11 operating system
   
-You can use a computer with Mac/Linux operating system. However, the virtual serial port emulator for day 5 only supports Windows operating system and the serial port monitor only supports Windows/Mac operating system. 
+You can use a computer with Mac/Linux operating system. However, the virtual serial port emulator for day 5 only supports Windows operating system.
   
 ### **Data**
 
@@ -109,9 +109,9 @@ Debugging GUI codes is different from traditional code.
 
  - Always keep in mind that there still exists CLI when you design GUI, try to print essential variables for debugging. 
 
- - Unless you enable multithreading, your codes run in serial. This explains why there are lags during display when you are processing data in background. 
+ - Unless you enable multithreading, your codes run in serial. If your data processing codes are time-consuming, the GUI will be blocked.
 
- - Assign meaningful names to each widget. You’ll lose your widgets when you have plenty of them. 
+ - Assign meaningful names to each widget. For example, you can name a button as ```start_button```, a text box as ```file_path_textbox```, and a figure as ```data_figure```. This helps to find the widget you want to update. 
 
  - Compared with displaying data statically, you should have an understanding of sliding window when you dynamically display data. 
 

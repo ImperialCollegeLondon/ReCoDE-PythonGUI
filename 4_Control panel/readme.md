@@ -10,6 +10,8 @@ The control panel is used to achieve four functions:
 3. Select the channels to be activated
 4. Change the color of each plots
 
+All codes required for this session can be found in `Python_GUI_day4.py`.
+
 ### **Callback Function**
 
 Before we start, there is a very important concept to know, callback function. Callback function exists for each interactive item. When the interactive item is clicked, the callback function will be executed. For example, the code to create a button with a callback is as follows:

@@ -1,5 +1,7 @@
 ## Python GUI programming Day 1
 Different GUI framesworks have different ways to create a GUI. In this course, we will use dearpygui as the GUI framework. [Dearpygui](https://docs.dearpygui.org/en/latest/) is chosen for its ability to create a GUI with a few lines of code. It is also a very powerful GUI framework that can be used to create a complex GUI. Most importantly, it supports GPU rendering and multi-threading, which makes it very fast and responsive.
+
+All codes required for this session can be found in `Python_GUI_day1.py`.
 ### **Structure of dearpygui**
 
 A typical dearpygui contains the following code:

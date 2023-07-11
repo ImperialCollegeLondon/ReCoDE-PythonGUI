@@ -1,6 +1,12 @@
 ## Python GUI programming Day 5
 From previous study you have learned how to display and control display of data containing multiple channels from a file. In this session, you will learn how to display sent from a serial port. This is useful when you want to display data from a sensor and evaluate the data in real time.
 
+`Python_GUI_day5_simple.py` is a simple example to show serial port transmission.
+
+`Python_GUI_day5_display.py` is an example to display data from serial port.
+
+`Python_GUI_day5_exercise.py` is the answer to exercise.
+
 ### **Basic knowledge about serial port**
 Serial communication has been a fundamental method for data exchange between computers and various peripheral devices for decades. One of the most common interfaces for serial communication is the serial port. The serial port, also known as a COM port or RS-232 port, provides a standard communication interface that allows data to be transmitted and received one bit at a time.
 
@@ -118,7 +124,7 @@ data = ser.readline()
 ser.write(b'Hello World')
 ```
 
-### **Exercise 1**
+### **Exercise**
 The most important part of real time data display is to keep the display speed the same as the data acquisition speed. If the display speed is slower than the data acquisition speed, you will lose some data points. If the display speed is faster than the data acquisition speed, you will see the same data points multiple times. In this exercise, you will learn how to keep the display speed the same as the data acquisition speed.
 
 The display speed in `Python_GUI_day5_display.py` is much faster than the data acquisition speed (which is manually controlled). Therefore, you see discrete data points other than continuous data. You can force the display speed to be the same as the data acquisition speed by only updating the display when new data is available. The solutions to this exercise can be found in `Python_GUI_day5_exercise.py`.
@@ -129,5 +135,3 @@ At this time, the display is updated only when a new data point is sent from the
 
 ![GUI](/Resources/single_channel_serial_port_display3.gif "Main Window")
 
-### **Exercise 2**
-As you can send multiple data points at the same time, you can display multiple channels at the same time. If you send three data points at the same time, you can assign these three data points to three display channels and display them at the same time. No solution is provided for this exercise. You can try to do it by yourself.
