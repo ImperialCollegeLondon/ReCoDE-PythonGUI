@@ -76,7 +76,7 @@ Day 5: Extension: Serial Port Communication
 
 ### **Software**
 - Python 3.9.7
-- VisualStudio Code (news version)
+- VisualStudio Code (newest version)
 
 Python packages that need to be installed will be introduced in corresponding sections.
 
