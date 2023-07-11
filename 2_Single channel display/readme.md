@@ -7,7 +7,7 @@ In this session we are going to create a GUI that displays a single channel of d
 
 The codes are modularized. You can copy the codes from the template and paste them to your own codes. The codes are explained in the following sections.
 
-You have created a plot widgte that can show data statically. However, in most cases, we need to plot data dynamically. That is, the data is changing with time. In this case, we need to update the plot widget with new data. The function ```start_dearpygui()``` is used to start the GUI. However, it is a blocking function. That is, the program will be blocked at this function. Therefore, we cannot update the plot widget. Therefore, we are going to replace ```start_dearpygui()``` with a while loop. The while loop will keep running until the GUI is closed. The function ```render_dearpygui_frame()``` is used to update the GUI after we make updates to the widgets. 
+You have created a plot widgte that can show data statically. However, in most cases, we need to plot data dynamically. That is, the data is changing with time. In this case, we need to update the plot widget with new data. The function `start_dearpygui()` is used to start the GUI. However, it is a blocking function. That is, the program will be blocked at this function. Therefore, we cannot update the plot widget. Therefore, we are going to replace `start_dearpygui()` with a while loop. The while loop will keep running until the GUI is closed. The function `render_dearpygui_frame()` is used to update the GUI after we make updates to the widgets. 
 ```python
 while dpg.is_dearpygui_running():
     ### function to update the plot widgets ###

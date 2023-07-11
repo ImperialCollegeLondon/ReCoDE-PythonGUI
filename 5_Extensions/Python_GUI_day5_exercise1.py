@@ -29,29 +29,30 @@ def update_series():
 
     # read data from the serial port
     received_data = 0
-    if start_stop == 1:
-        if ser.in_waiting:
-            received_data = ser.readline().decode('utf-8').strip('\r\n').split('\r')
-            # Only one point is sent from the serial port each time, so we need to concatenate the data
-            # datay is initialized as a zero array with length 500, the recieved data is added to the end of the array
-            # we then contruncate the first element of the array, so the length of the array is still 500
-            global datay
+    if not(start_stop == 1 and ser.in_waiting):
+        return
+    
+    received_data = ser.readline().decode('utf-8').strip('\r\n').split('\r')
+    # Only one point is sent from the serial port each time, so we need to concatenate the data
+    # datay is initialized as a zero array with length 500, the recieved data is added to the end of the array
+    # we then contruncate the first element of the array, so the length of the array is still 500
+    global datay
 
-            # The following codes are used to deal with multiple data points sent from the serial port
-            received_data_display = []
-            for i in range(len(received_data)):
-                received_data_display.append(received_data[i].split(' '))
-            received_data_display = np.array(received_data_display)
-            received_data_display.reshape(1,np.size(received_data_display))
-            datay = np.append(datay, received_data_display[0].astype(np.float64))
-            datay = np.delete(datay, np.arange(0,len(received_data_display[0])))
+    # The following codes are used to deal with multiple data points sent from the serial port
+    received_data_display = []
+    for i in range(len(received_data)):
+        received_data_display.append(received_data[i].split(' '))
+    received_data_display = np.array(received_data_display)
+    received_data_display.reshape(1,np.size(received_data_display))
+    datay = np.append(datay, received_data_display[0].astype(np.float64))
+    datay = np.delete(datay, np.arange(0,len(received_data_display[0])))
 
-            if start_stop == 0:
-                datay = np.zeros(20)
+    if start_stop == 0:
+        datay = np.zeros(20)
 
-            dpg.set_value(SERIAL_TAG, [datax, datay])
-            dpg.set_item_label(SERIAL_TAG,'Serial Transmission')
-            dpg.fit_axis_data("y_axis")
+    dpg.set_value(SERIAL_TAG, [datax, datay])
+    dpg.set_item_label(SERIAL_TAG,'Serial Transmission')
+    dpg.fit_axis_data("y_axis")
 
 def on_start_stop_pressed():
     """start or stop the plot
