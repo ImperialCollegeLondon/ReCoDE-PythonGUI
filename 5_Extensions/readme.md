@@ -29,7 +29,7 @@ conda install pyserial
 For the purpose of demonstrator, you can use a virtual serial port emulator so that you don't need a physical serial port transmission link. You can download it from [this website](https://www.virtual-serial-port.org/). After you install the software, you can create a virtual serial port pair. The virtual serial port pair will be used to simulate the communication between two devices. You can use the virtual serial port pair, for example, COM1 and COM2, to send data from one port and receive the data from the other port. **This is a paid software. You can use the trial version for 14 days.** A detailed instruction to create virtual serial port pair can be found [here](https://www.virtual-serial-port.org/articles/configure-virtual-serial-ports/).
 
 Interface for the virtual serial port emulator:
-![GUI](/Resources/VSPD.webp "Main Window")
+![GUI](https://raw.githubusercontent.com/ImperialCollegeLondon/ReCoDE-PythonGUI/main/Resources/VSPD.webp "Main Window")
 
 If you are using virtual serial port emulator, you need another software called serial port monitor to simulate the peripheral device. Serial port monitor can be used to send and receive data from the virtual serial port. You can download it from [here](http://www.alithon.com/downloads).
 
@@ -50,7 +50,7 @@ ser = serial.Serial('COM1')
 ser.write(b'Hello World')
 ```
 4. Open the serial port COM2 using serial port monitor. Choose the COM2 port and click the “Open” button. You should see the data sent from the serial port COM1.
-![GUI](/Resources/Serial_port_monitor.jpg "Main Window")
+![GUI](https://raw.githubusercontent.com/ImperialCollegeLondon/ReCoDE-PythonGUI/main/Resources/Serial_port_monitor.jpg "Main Window")
 
 The full codes for this part can be found in `Python_GUI_day5_simple.py`
 
@@ -60,7 +60,7 @@ In this tutorial, we will use a single channel display widget to display data re
 
 1. Create a new project and add a single channel display widget and a button to the GUI. The GUI should look like this:
    
-![GUI](/Resources/single_channel_serial_port.jpg "Main Window")
+![GUI](https://raw.githubusercontent.com/ImperialCollegeLondon/ReCoDE-PythonGUI/main/Resources/single_channel_serial_port.jpg "Main Window")
 
 2. Create a serial port object and open the serial port COM1. You can use the following code to create a serial port object and open the serial port COM1:
 
@@ -82,7 +82,7 @@ The full codes for this tutorial can be found in `Python_GUI_day5_display.py`
 
 An example has been shown below. When the START button is clicked, 1, 2, 3, 4, 5 are sent to the serial port COM1. The data are then displayed on the GUI.
 
-![GUI](/Resources/single_channel_serial_port_display.gif "Main Window")
+![GUI](https://raw.githubusercontent.com/ImperialCollegeLondon/ReCoDE-PythonGUI/main/Resources/single_channel_serial_port_display.gif "Main Window")
 
 ### **Hints**
 
@@ -129,9 +129,9 @@ The most important part of real time data display is to keep the display speed t
 
 The display speed in `Python_GUI_day5_display.py` is much faster than the data acquisition speed (which is manually controlled). Therefore, you see discrete data points other than continuous data. You can force the display speed to be the same as the data acquisition speed by only updating the display when new data is available. The solutions to this exercise can be found in `Python_GUI_day5_exercise.py`.
 
-![GUI](/Resources/single_channel_serial_port_display2.gif "Main Window")
+![GUI](https://raw.githubusercontent.com/ImperialCollegeLondon/ReCoDE-PythonGUI/main/Resources/single_channel_serial_port_display2.gif "Main Window")
 
 At this time, the display is updated only when a new data point is sent from the serial port. I also provide the supports for sending multiple data points at the same time seperated by a space. You can tick the Loop checkbox to simulate continuous data acquisition. 
 
-![GUI](/Resources/single_channel_serial_port_display3.gif "Main Window")
+![GUI](https://raw.githubusercontent.com/ImperialCollegeLondon/ReCoDE-PythonGUI/main/Resources/single_channel_serial_port_display3.gif "Main Window")
 

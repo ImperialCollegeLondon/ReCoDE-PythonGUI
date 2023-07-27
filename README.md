@@ -1,7 +1,7 @@
 # ReCoDE_PythonGUI
 
 # A multi-channel GUI for real-time data display and analysis
-![GUI](/Resources/main_window.jpg "Main Window")
+![GUI](https://raw.githubusercontent.com/ImperialCollegeLondon/ReCoDE-PythonGUI/main/Resources/main_window.jpg "Main Window")
 
 In this course, you will learn how to create a GUI program to display and analyze data in real-time with Python. The GUI program is designed to display and analyze data from a file. The GUI program is also designed to display data from a data acquisition system through serial port communication. The GUI program is developed using dearpygui, a GPU-based Python GUI framework. 
 
