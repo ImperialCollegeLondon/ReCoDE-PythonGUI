@@ -27,6 +27,7 @@ There are plenty of GUI software developed by dearpygui. You can find them in th
 
 ### **Structure of this course**
 Day 1: Develop familiarity with frameworks and key components for GUI design.  
+
 * Contents:
   
     You will be provided with sample codes to familiarize commonly used GUI widgets. You can design whatever you want using provided widgets. (Sample data will be provided)
